@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { useCallback, useState } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import NewPlace from "./places/pages/NewPlace";
@@ -8,9 +8,22 @@ import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Auth from "./user/pages/Auth";
 import Users from "./user/pages/Users";
 
+import {AuthContext} from "./shared/context/auth-context";
+
 function App() {
+
+  const [isLoggedIn,SetIsLoggedIn]=useState=useState(false)
+
+  const login=useCallback(()=>{
+    setIsLoggedIn(true)
+  },[])
+
+  const logout=useCallback(()=>{
+    setIsLoggedIn(false)
+  },[])
+
   return (
-    <Fragment>
+    <AuthContext.Provider value={{isLoggedIn:IsLoggedIn,login:login,logout:logout}}>
       <MainNavigation />
       <main>
         <Switch>
@@ -32,7 +45,7 @@ function App() {
           <Redirect to="/" />
         </Switch>
       </main>
-    </Fragment>
+    </AuthContext>
   );
 }
 
