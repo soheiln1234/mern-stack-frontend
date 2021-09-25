@@ -1,7 +1,8 @@
 import React from "react";
+import "./SideDrawer.css";
 
-function SideDrawer() {
-  return <div></div>;
-}
+const SideDrawer = ({ children }) => {
+  return <aside className="side-drawer">{children}</aside>;
+};
 
 export default SideDrawer;
