@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from "react";
 
-import "./Input.css";
 import { validate } from "../../util/validators";
+import "./Input.css";
 
 const inputReducer = (state, action) => {
   switch (action.type) {
@@ -11,8 +11,12 @@ const inputReducer = (state, action) => {
         value: action.val,
         isValid: validate(action.val, action.validators),
       };
-    case "TOUCH":
-      return { ...state, isTouched: true };
+    case "TOUCH": {
+      return {
+        ...state,
+        isTouched: true,
+      };
+    }
     default:
       return state;
   }
@@ -20,9 +24,9 @@ const inputReducer = (state, action) => {
 
 const Input = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
-    isValid: false,
     value: "",
     isTouched: false,
+    isValid: false,
   });
 
   const { id, onInput } = props;
@@ -30,7 +34,7 @@ const Input = (props) => {
 
   useEffect(() => {
     onInput(id, value, isValid);
-  }, [id, onInput, value, isValid]);
+  }, [id, value, isValid, onInput]);
 
   const changeHandler = (event) => {
     dispatch({
@@ -49,20 +53,20 @@ const Input = (props) => {
   const element =
     props.element === "input" ? (
       <input
-        onChange={changeHandler}
         id={props.id}
         type={props.type}
-        placesholder={props.placeholder}
-        value={inputState.value}
+        placeholder={props.placeholder}
+        onChange={changeHandler}
         onBlur={touchHandler}
+        value={inputState.value}
       />
     ) : (
       <textarea
-        value={inputState.value}
-        onChange={changeHandler}
         id={props.id}
         rows={props.rows || 3}
+        onChange={changeHandler}
         onBlur={touchHandler}
+        value={inputState.value}
       />
     );
 
