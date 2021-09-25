@@ -4,7 +4,8 @@ import "./Map.css";
 
 const Map = (props) => {
   const mapRef = useRef();
-  const { zoom, center, position } = props;
+
+  const { center, zoom } = props;
 
   useEffect(() => {
     const map = new window.google.maps.Map(mapRef.current, {
@@ -12,8 +13,8 @@ const Map = (props) => {
       zoom: zoom,
     });
 
-    new window.google.maps.Marker({ position: position, map: map });
-  }, [zoom, center, position]);
+    new window.google.maps.Marker({ position: center, map: map });
+  }, [center, zoom]);
 
   return (
     <div
