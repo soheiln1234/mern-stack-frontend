@@ -21,15 +21,21 @@ export const useHttpClient = () => {
         });
 
         const responseData = await response.json();
+
+        activeHttpRequests.current = activeHttpRequests.current.filter(
+          (reqCtrl) => reqCtrl !== httpAbortCtrl
+        );
+
         if (!response.ok) {
           throw new Error(responseData.message);
         }
 
+        setIsLoading(false);
         return responseData;
       } catch (err) {
         setError(err.message || "Somthing went wrong, please try again");
+        throw err;
       }
-      setIsLoading(false);
     },
     []
   );
@@ -40,7 +46,7 @@ export const useHttpClient = () => {
 
   useEffect(() => {
     return () => {
-      activeHttpRequests.current.forEach((abortCtrl) => abortCtrl.abortCtrl());
+      activeHttpRequests.current.forEach((abortCtrl) => abortCtrl.abort());
     };
   }, []);
 
