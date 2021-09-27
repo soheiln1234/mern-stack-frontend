@@ -1,2 +1,1 @@
-# Jaan-Admin-Panel
-This is first try to build admin panel for jaan application.
+This is front-end of mern stack aplication.
